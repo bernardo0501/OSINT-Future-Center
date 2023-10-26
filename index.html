@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Future OSINT Center</title>
+    <link rel="icon" href="https://media.licdn.com/dms/image/C4D0BAQEBg3v8WaUOAg/company-logo_200_200/0/1668175973678?e=1701302400&v=beta&t=KTbPnHnAA6uV37LssYlhcN528_sxmzpiZut-_n_TSFM">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <style>
+        body {
+            background-image: url("https://blackwallpaperhd.com/wp-content/uploads/2021/12/plainblack77e.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: white;
+            background-color: #111;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 32px;
+            margin-top: 20px;
+        }
+        h2 {
+            color: #00bfff;
+            font-size: 24px;
+        }
+        #logo {
+            max-width: 200px;
+            margin: 20px auto;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 300px;
+        }
+
+        #searchInput {
+            padding: 8px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        li {
+            margin: 10px;
+            max-width: 200px;
+        }
+        li a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        li img {
+            margin-bottom: 8px;
+            max-width: 40px;
+            max-height: 40px;
+        }
+
+        #footer {
+            background-color: #333;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+        
+        
+    <style>
+        .spinner {
+            border: 4px solid rgb(255, 255, 255);
+            border-left-color: #fffafa;
+            animation: spin 1s linear infinite;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <a href="https://www.future.com.br">
+    <img id="logo" src="https://www.future.com.br/wp-content/uploads/2021/08/Logo-Future-Horizontal-Sem-Fundo-Normal-600_1.png" alt="Future Logo">
+    </a>
+    <h1>Threat Intelligence Hub</h1>
+
+    <input type="text" id="searchInput" placeholder="Insira um IOC (IP, hash ou dominio)">
+    <button onclick="performOSINT()">Enter</button>
+
+    <h2>Ferramentas OSINT:</h2>
+    <ul id="osintOptions">
+        <li>
+            <a id="virusTotalLink" target="_blank" href="#">
+                <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/virustotal_logo_icon_171247.png" alt="VirusTotal">
+                VirusTotal
+            </a>
+        </li>
+        <li>
+            <a id="urlScanLink" target="_blank" href="#">
+                <img src="https://d4.alternativeto.net/6iq2OY99Dil4y9iIBY44dcRjmNb7NTEUACUUpDY6p14/rs:fill:280:280:0/g:ce:0:0/YWJzOi8vZGlzdC9pY29ucy91cmxzY2FuLWlvXzIwNTkwNS5wbmc.png" alt="URLScan">
+                URLscan
+            </a>
+        </li>
+        <li>
+            <a id="hybridAnalysisLink" target="_blank" href="#">
+                <img src="https://avatars.githubusercontent.com/u/8236041?s=200&v=4" alt="HybridAnalysis">
+                HybridAnalysis
+            </a>
+        </li>
+        <li>
+            <a id="mxToolboxLink" target="_blank" href="#">
+                <img src="https://d4.alternativeto.net/7uoeayFMsxb9YJfIwLyBbw0xMrf9C9CmPQ4ZyrTSg48/rs:fill:280:280:0/g:ce:0:0/YWJzOi8vZGlzdC9pY29ucy9teHRvb2xib3hfNTA1MjkucG5n.png" alt="MXtoolbox">
+                MXtoolbox
+            </a>
+        </li>
+        <li>
+            <a id="shodanLink" target="_blank" href="#">
+                <img src="https://pbs.twimg.com/profile_images/1105606704090267648/oyZUgnFr_400x400.png" alt="Shodan">
+                Shodan
+            </a>
+        </li>
+        <li>
+            <a id="abuseIPLink" target="_blank" href="#">
+                <img src="https://www.abuseipdb.com/img/abuseipdb-logo.svg" alt="AbuseIPDB">
+                AbuseIPDB
+            </a>
+        </li>
+        <li>
+            <a id="ciscoTalosLink" target="_blank" href="#">
+                <img src="https://avatars.githubusercontent.com/u/28057349?s=280&v=4" alt="Cisco Talos">
+                Talos Intelligence
+            </a>
+        </li>
+        <li>
+            <a id="otxAlienLink" target="_blank" href="#">
+                <img src="https://avatars.githubusercontent.com/u/25514665?s=200&v=4" alt="OTX Alienvault">
+                OTX Alienvault
+            </a>
+        </li>
+        <li>
+            <a id="censysLink" target="_blank" href="#">
+                <img src="https://search.censys.io/static/img/icon.png" alt="Censys.io">
+                Censys.io
+            </a>
+        </li>
+        <li>
+            <a id="threatBookLink" target="_blank" href="#">
+                <img src="https://pbs.twimg.com/profile_images/1589819871415926785/F2VcJI-4_400x400.jpg" alt="ThreatBook.io">
+                ThreatBook.io
+            </a>
+        </li>
+
+    </ul>
+        
+        <div id="translator">
+            <h2>Tradutor Base64</h2>
+            <label for="base64Input">Texto ou Base64:</label>
+            <input type="text" id="base64Input" placeholder="Insira a Base64">
+            <button onclick="tradutor()">Traduzir</button>
+            <label for="result">Resultado:</label>
+            <textarea id="result" readonly></textarea>
+        </div>
+
+        <h2>Calcular Hash MD5 de Arquivo</h2>
+        <input type="file" id="fileInput">
+        <button onclick="calculateMD5()">Calcular Hash MD5</button>
+        <span class="spinner" id="spinner" style="display: none;"></span>
+        <p id="hashResult"></p>
+
+
+    <script>
+        function performOSINT() {
+            const inputData = document.getElementById('searchInput').value;
+            const virusTotalLink = document.getElementById('virusTotalLink');
+            const urlScanLink = document.getElementById('urlScanLink');
+            const hybridAnalysisLink = document.getElementById('hybridAnalysisLink');
+            const mxToolboxLink = document.getElementById('mxToolboxLink');
+            const abuseIPLink = document.getElementById('abuseIPLink');
+            const ciscoTalosLink = document.getElementById('ciscoTalosLink');
+            const otxAlienLink = document.getElementById('otxAlienLink');
+            const censysLink = document.getElementById('censysLink');
+            const threatBookLink = document.getElementById('threatBookLink');
+            // Redirect
+            virusTotalLink.href = 'https://www.virustotal.com/gui/search/' + inputData;
+            urlScanLink.href = 'https://urlscan.io/search/#' + inputData;
+            hybridAnalysisLink.href = 'https://www.hybrid-analysis.com/search?query=' + inputData;
+            mxToolboxLink.href = 'https://mxtoolbox.com/SuperTool.aspx?action=mx%3a' + inputData;
+            shodanLink.href = 'https://shodan.io/host/' + inputData;
+            abuseIPLink.href = 'https://www.abuseipdb.com/check/' + inputData;
+            ciscoTalosLink.href = 'https://www.talosintelligence.com/reputation_center/lookup?search=' + inputData;
+            otxAlienLink.href = 'https://otx.alienvault.com/browse/global/pulses?q=' + inputData + '&include_inactive=0&sort=-modified&page=1&limit=10&indicatorsSearch=' + inputData;
+            censysLink.href = 'https://search.censys.io/hosts/' + inputData;
+            threatBookLink.href = 'https://threatbook.io/ip/' + inputData;
+
+
+        }
+            const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); 
+            performOSINT(); 
+        }
+    });
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script>
+        function tradutor() {
+    const input = document.getElementById('base64Input').value;
+    const resultTextArea = document.getElementById('result');
+
+    try {
+        const decodedText = decodeURIComponent(escape(atob(input)));
+        resultTextArea.value = decodedText;
+    } catch (error) {
+        resultTextArea.value = "Erro ao decodificar Base64.";
+    }
+}
+
+        function calculateMD5() {
+            const fileInput = document.getElementById('fileInput');
+            const hashResult = document.getElementById('hashResult');
+            const spinner = document.getElementById('spinner');
+            
+            if (fileInput.files.length === 0) {
+                hashResult.textContent = "Selecione um arquivo antes de calcular o hash.";
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            
+            spinner.style.display = 'inline-block';
+            
+            reader.onload = function(event) {
+                const arrayBuffer = event.target.result;
+                const byteArray = new Uint8Array(arrayBuffer);
+                const hash = CryptoJS.MD5(CryptoJS.lib.WordArray.create(byteArray)).toString(CryptoJS.enc.Hex);
+                
+                
+                spinner.style.display = 'none';
+                
+                hashResult.textContent = "Hash MD5 do arquivo: " + hash;
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+    </script>
+</body>
+</html>
