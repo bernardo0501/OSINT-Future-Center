@@ -4,6 +4,7 @@
     <title>Future OSINT Center</title>
     <link rel="icon" href="https://media.licdn.com/dms/image/C4D0BAQEBg3v8WaUOAg/company-logo_200_200/0/1668175973678?e=1701302400&v=beta&t=KTbPnHnAA6uV37LssYlhcN528_sxmzpiZut-_n_TSFM">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         body {
             background-image: url("https://blackwallpaperhd.com/wp-content/uploads/2021/12/plainblack77e.jpg");
@@ -190,6 +191,14 @@
         <span class="spinner" id="spinner" style="display: none;"></span>
         <p id="hashResult"></p>
 
+        <div id="interpretationSection">
+            
+        <h2>Code Interpretation</h2>
+        <textarea id="codeInput" placeholder="Enter code here"></textarea>
+        <button onclick="interpretCode()">Interpret Code</button>
+        <div id="interpretationResult"></div>
+    </div>
+
 
     <script>
         function performOSINT() {
@@ -269,6 +278,33 @@
             };
             
             reader.readAsArrayBuffer(file);
+        }
+
+        function interpretCode() {
+            const codeInput = document.getElementById('codeInput').value;
+            const interpretationResult = document.getElementById('interpretationResult');
+
+            // Call OpenAI Code API
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/engines/davinci-codex/completions',
+                headers: {
+                    'Authorization': 'Bearer YOUR_OPENAI_API_KEY',
+                    'Content-Type': 'application/json',
+                },
+                data: JSON.stringify({
+                    prompt: codeInput,
+                    max_tokens: 100,
+                }),
+                success: function(response) {
+                    const interpretation = response.choices[0].text.trim();
+                    interpretationResult.innerHTML = `<p>${interpretation}</p>`;
+                },
+                error: function(error) {
+                    console.error('Error interpreting code:', error);
+                    interpretationResult.innerHTML = '<p>Error interpreting code</p>';
+                },
+            });
         }
 
     </script>
